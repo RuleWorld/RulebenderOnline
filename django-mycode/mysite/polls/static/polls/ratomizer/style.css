@@ -1,0 +1,119 @@
+html
+{
+    font-size: 100%;
+}
+
+
+#container
+{
+	margin: 0 auto;
+	width: 900px;
+	background: #fff;
+}
+
+#header
+{
+	background-color: #155799;
+    background-image: linear-gradient(120deg, #159957, #155799); 
+    text-align: right;
+	padding: 20px;
+}
+
+#header h1 { margin: 0; color: #eee;}
+
+#navigation
+{
+	float: left;
+	width: 900px;
+    background-color: #155799;
+    background-image: linear-gradient(120deg, #159957, #155799); 
+	
+}
+
+#navigation ul
+{
+	margin: 0;
+	padding: 0;
+}
+
+#navigation ul li
+{
+	list-style-type: none;
+	display: inline;
+}
+
+#navigation li a
+{
+	display: block;
+	float: left;
+	padding: 5px 10px;
+	color: #fff;
+	text-decoration: none;
+	border-right: 1px solid #fff;
+}
+
+#navigation li a:hover { background: #383; }
+
+#content-container
+{
+	float: left;
+	width: 900px;
+	background: #fff url(/wp-content/uploads/layout-two-fixed-background.gif) repeat-y 100% 0;
+}
+
+#content
+{
+	clear: left;
+	float: left;
+	width: 690px;
+	padding: 20px 0;
+	margin: 0 0 0 30px;
+	display: inline;
+}
+
+#content h2 { margin: 0; }
+
+#aside
+{
+	float: right;
+	width: 140px;
+	padding: 40px 0;
+	margin: 0 20px 0 0;
+	display: inline;
+}
+
+#aside h3 { margin: 0; }
+
+#footer
+{
+	clear: both;
+    color: #eee;
+    background-color: #155799;
+    background-image: linear-gradient(120deg, #159957, #155799); 
+	text-align: right;
+	padding: 20px;
+	height: 1%;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+
+.tooltip-inner {
+    max-width: none;
+
+}

@@ -1,0 +1,6 @@
+li a {
+    color: green;
+}
+body {
+    background-image: url("images/systems_biology_08.jpg");
+}

@@ -1,0 +1,3 @@
+<script type="text/javascript">
+var ip_data = '{"ip":"216.251.43.17","country_code":"US","country_name":"United States","region_code":"FL","region_name":"Florida","city":"Fort Lauderdale","zip_code":"33301","time_zone":"America/New_York","latitude":26.1209,"longitude":-80.1273,"metro_code":528}';
+</script>

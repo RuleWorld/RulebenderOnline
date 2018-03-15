@@ -1,0 +1,38 @@
+User:  admin
+e-mail:   admin@example.com
+Password:  P1ttsburgh
+
+Website for tracking down IP information (python invocation)
+user_raw = urllib2.urlopen('http://freegeoip.net/json/216.251.43.17')
+user_json = user_raw.read()
+
+Full instructions for the environment:
+https://www.howtoforge.com/tutorial/django-install-ubuntu-14.04/
+
+A list of important Django topics:
+https://docs.djangoproject.com/en/1.10/howto/
+
+To get the country and institution information for an IP site
+http://ip-api.com/csv/62.44.134.98
+
+To upload files:
+https://docs.djangoproject.com/en/1.10/topics/http/file-uploads/
+
+To get the shell:
+python manage.py shell
+
+To run the tests:
+python manage.py test polls
+
+To run the server:
+python manage.py runserver
+
+To run the server and permit anyone to access the webpage:
+python manage.py runserver  0.0.0.0:8181   
+In this case, the webpage is at  http://130.49.212.238:8181/polls/
+
+To get the environment:
+source ../../django-user/bin/activate
+
+To run the server on the local machine:
+python manage.py runserver  0.0.0.0:8181

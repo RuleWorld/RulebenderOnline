@@ -1,0 +1,309 @@
+
+<!-- <div class="basic">  -->
+{% include "polls/header.html" %}    
+<!-- </div>  -->
+
+
+<!--
+<script src='lib/require.js'></script>
+<script>
+
+   var antlr4 = require('antlr4/index');
+   alert(" Got here ");
+
+   var input = "your text to parse here"
+   var chars = new antlr4.InputStream(input);
+
+   var lexer = new Lexer.Lexer(chars);
+   var tokens  = new antlr4.CommonTokenStream(lexer);
+   var parser = new Parser.Parser(tokens);
+</script>
+-->
+
+
+
+<style type="text/css">
+      .CodeMirror {border: 1px solid #aaa; height: 400px; width: 700px; font-weight: 900;}
+<!--
+      .lineblock { display: inline-block; margin: 1px; height: 5px; }
+-->
+      .cm-bngl_comment      { color: grey;   }
+      .cm-bngl_section      { color: purple; }
+      .cm-bngl_observables  { color: purple; }
+      .cm-bngl_red          { color: red;    }
+      .cm-bngl_blue         { color: blue;   }
+      .cm-bngl_green        { color: green;  }
+      .cm-bngl_orange       { color: orange; }
+</style>
+
+ 
+
+
+ 
+<div id="container"> 
+
+<style type="text/css">
+#div_edit
+{
+        float: left;
+        width: 550px;
+        padding: 40px 0;
+        margin: 0 20px 0 0;
+        display: inline;
+}
+</style>
+  <div id="div_edit"> 
+    {% include "polls/div_edit.txt" %}    
+  </div>
+
+  <div id="cy" style="display: inline;border-radius: 25px;border: 5px solid #73AD21;background-color:#FFFFFF;padding: 0px 0px;margin:200px 0px 0px 800px;float:right;height:600px;width:550px"> </div>
+</div>
+
+
+
+
+
+
+
+<script>
+
+var cs = document.getElementById("modecode");
+var validator = CodeMirror.fromTextArea(document.getElementById("validate"), {
+  value: (cs.textContent || cs.innerText || cs.innerHTML),
+  mode: 'my_simple_mode',
+  tabMode: 'indent',
+  lineNumbers: true,
+  lineWrapping: true,
+  autoCloseTags: true
+});
+validator.setSize(null,150);
+
+
+
+function numTokens(my_string) {
+  var comma_list  = my_string.split(" ");
+
+  var pcount = 0;
+  for (kk = 0; kk < comma_list.length; kk++) { 
+    var tab_list = comma_list[kk].split("\t");
+    for (jj = 0; jj < tab_list.length; jj++) { 
+      if ((tab_list[jj].trim()).length > 0) { pcount++; }  
+    }
+  }
+
+return pcount;
+}
+
+function isCode(my_string) {
+  var result = "code";
+    if (comment_regex.test(my_string))          { result = "comment"; }
+    if (!non_blank_line_regex.test(my_string))  { result = "comment"; }
+  
+    if (numTokens(my_string) == 2) {  
+      if (begin_model_regex.test(my_string))           { result = "scthead"; }}
+    if (numTokens(my_string) == 2) {  
+      if (end_model_regex.test(my_string))             { result = "scthead"; }}
+
+    if (numTokens(my_string) == 2) {  
+      if (begin_parameters_regex.test(my_string))      { result = "scthead"; }}
+    if (numTokens(my_string) == 2) {  
+      if (end_parameters_regex.test(my_string))        { result = "scthead"; }}
+
+    if (numTokens(my_string) == 3) {  
+      if (begin_seed_species_regex.test(my_string))    { result = "scthead"; }}
+    if (numTokens(my_string) == 3) {  
+      if (end_seed_species_regex.test(my_string))      { result = "scthead"; }}
+
+    if (numTokens(my_string) == 3) {  
+      if (begin_molecule_types_regex.test(my_string))  { result = "scthead"; }}
+    if (numTokens(my_string) == 3) {  
+      if (end_molecule_types_regex.test(my_string))    { result = "scthead"; }}
+
+    if (numTokens(my_string) == 2) {  
+      if (begin_species_regex.test(my_string))         { result = "scthead"; }}
+    if (numTokens(my_string) == 2) {  
+      if (end_species_regex.test(my_string))           { result = "scthead"; }}
+
+    if (numTokens(my_string) == 2) {  
+      if (begin_observables_regex.test(my_string))     { result = "scthead"; }}
+    if (numTokens(my_string) == 2) {  
+      if (end_observables_regex.test(my_string))       { result = "scthead"; }}
+
+    if (numTokens(my_string) == 2) {  
+      if (begin_functions_regex.test(my_string))       { result = "scthead"; }}
+    if (numTokens(my_string) == 2) {  
+      if (end_functions_regex.test(my_string))         { result = "scthead"; }}
+
+    if (numTokens(my_string) == 3) {  
+      if (begin_reaction_rules_regex.test(my_string))  { result = "scthead"; }}
+    if (numTokens(my_string) == 3) {  
+      if (end_reaction_rules_regex.test(my_string))    { result = "scthead"; }}
+
+    if (numTokens(my_string) == 2) {  
+      if (begin_compartments_regex.test(my_string))    { result = "scthead"; }}
+    if (numTokens(my_string) == 2) {  
+      if (end_compartments_regex.test(my_string))      { result = "scthead"; }}
+
+  return result;
+}
+
+
+
+function getSection(sname,lstring) {
+
+
+     var b_ses     = begin_seed_species_regex.test(lstring);
+     var e_ses     =   end_seed_species_regex.test(lstring);
+     var b_par     = begin_parameters_regex.test(lstring);
+     var e_par     =   end_parameters_regex.test(lstring);
+     var b_mot     = begin_molecule_types_regex.test(lstring);
+     var e_mot     =   end_molecule_types_regex.test(lstring);
+     var b_spc     = begin_species_regex.test(lstring);
+     var e_spc     =   end_species_regex.test(lstring);
+     var b_obs     = begin_observables_regex.test(lstring);
+     var e_obs     =   end_observables_regex.test(lstring);
+     var b_fnc     = begin_functions_regex.test(lstring);
+     var e_fnc     =   end_functions_regex.test(lstring);
+     var b_rer     = begin_reaction_rules_regex.test(lstring);
+     var e_rer     =   end_reaction_rules_regex.test(lstring);
+     var b_com     = begin_compartments_regex.test(lstring);
+     var e_com     =   end_compartments_regex.test(lstring);
+     var e_mod     =   end_model_regex.test(lstring);
+
+     if (b_par) {if (numTokens(lstring) == 2) { sname = "parameters"; }}
+     if (b_mot) { sname = "molecule_types"; }
+     if (b_spc) { sname = "species"; }
+     if (b_obs) { sname = "observables"; }
+     if (b_fnc) { sname = "functions"; }
+     if (b_rer) { sname = "reaction_rules"; }
+     if (b_ses) { sname = "seed_species"; }
+     if (b_com) { sname = "compartments"; }
+//     if (b_mod) { sname = "none"; }
+
+     if (e_par) { sname = "none"; }
+     if (e_mot) { sname = "none"; }
+     if (e_spc) { sname = "none"; }
+     if (e_obs) { sname = "none"; }
+     if (e_fnc) { sname = "none"; }
+     if (e_rer) { sname = "none"; }
+     if (e_ses) { sname = "none"; }
+     if (e_com) { sname = "none"; }
+     if (e_mod) { sname = "simulation"; }
+
+return sname;
+}
+
+
+// setInterval(function() {
+setInterval(function updateBlob() {
+//function updateBlob() {
+   var section_name = "none";
+   var stuff_to_print = "";
+   var edout = editor.getValue();
+   var section_count = 0;
+
+   var lines = edout.split('\n');
+   for(var i = 0;i < lines.length;i++){
+     var iline = i+1;
+     var sline = lines[i].trim();
+     var comlb = sline.indexOf("#");
+
+     // Remove any comment
+     var comub = "";
+     if (comlb > 0) {  
+       comub = sline.substring(0,comlb);
+     } 
+     if (comlb < 0) {  
+       comub = sline;
+     }
+
+
+     section_name = getSection(section_name,comub);
+
+//     stuff_to_print = stuff_to_print + " " + comub + " " + section_name + 
+//     "  " + isCode(comub) + "  " +  numTokens(comub) + "\n\n";
+
+     if (section_name == "none") {
+       if ((isCode(comub) == "code") && (section_count > -1)) {
+         section_count = section_count + 1;
+         stuff_to_print = stuff_to_print + 
+          "Line Number " + iline + "\n" +
+          "BNGL code was found that does not belong to a section:\n" +
+          "    " + sline + "\n\n";
+       }
+     }
+     if (section_name == "parameters") {
+       if (isCode(comub) == "code") {
+         if (numTokens(comub) > 2) {
+           stuff_to_print = stuff_to_print + 
+             "Line Number " + iline + "\n" +
+             "The following statement is not a parameter definition:\n" +
+             "    " + sline + "\n\n";
+
+         }
+       }
+     }
+   }
+
+   if (non_blank_line_regex.test(stuff_to_print)) {
+     validator.setValue(stuff_to_print);
+   } else {
+     validator.setValue("Model formulation is valid.");
+   }
+// }, 3000);
+ }, 3000);
+// }
+
+
+
+
+var sc = document.getElementById("modecode");
+var editor = CodeMirror.fromTextArea(document.getElementById("cm"), {
+  value: (sc.textContent || sc.innerText || sc.innerHTML),
+  mode: 'my_simple_mode',
+  tabMode: 'indent',
+  lineNumbers: true,
+  lineWrapping: true,
+  autoCloseTags: true
+});
+
+updateBlob(); 
+</script>
+
+
+
+
+<!--
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+    <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+<font color="white">
+<ul>
+<li><a name="pete1">This</a></li>
+<li><a name="pete2">That</a></li>
+<li><a name="pete3">The</a></li>
+<li><a name="pete4">Other</a></li>
+<li><a name="pete5">Thing</a></li>
+</ul>
+
+Now is the time for all good men to come to the aid of their country.
+
+-->
+
+
+{% include "polls/ajax.html" %}
+
+{% include "polls/graph.html" %}    
+
+
+</font>
+</body>
+</html>
+

@@ -1,0 +1,189 @@
+
+<script>
+
+
+function openCity(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the link that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+</script>
+
+
+<!-- <div class="basic">  -->
+{% include "polls/header.html" %}    
+<!-- </div>  -->
+
+
+
+
+<style type="text/css">
+      .CodeMirror {border: 1px solid #aaa; height: 400px; width: 700px; font-weight: 900;}
+<!--
+      .lineblock { display: inline-block; margin: 1px; height: 5px; }
+-->
+      .cm-bngl_comment      { color: grey;   }
+      .cm-bngl_section      { color: purple; }
+      .cm-bngl_observables  { color: purple; }
+      .cm-bngl_red          { color: red;    }
+      .cm-bngl_blue         { color: blue;   }
+      .cm-bngl_green        { color: green;  }
+      .cm-bngl_orange       { color: orange; }
+
+
+ul.tab {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Float the list items side by side */
+ul.tab li {float: left;}
+
+/* Style the links inside the list items */
+ul.tab li a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of links on hover */
+ul.tab li a:hover {background-color: #ddd;}
+
+/* Create an active/current tablink class */
+ul.tab li a:focus, .active {background-color: #ccc;}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+<ul class="tab">
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'London')">London</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Paris')">Paris</a></li>
+  <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</a></li>
+</ul>
+
+<div id="London" class="tabcontent">
+  <h3>London</h3>
+  <p>London is the capital city of England.</p>
+</div>
+
+<div id="Paris" class="tabcontent">
+  <h3>Paris</h3>
+  <p>Paris is the capital of France.</p>
+</div>
+
+<div id="Tokyo" class="tabcontent">
+  <h3>Tokyo</h3>
+  <p>Tokyo is the capital of Japan.</p>
+</div>
+
+
+
+
+
+
+
+ 
+ 
+<div id="container"> 
+
+<style type="text/css">
+#div_edit
+{
+        float: left;
+        width: 550px;
+        padding: 40px 0;
+        margin: 0 20px 0 0;
+        display: inline;
+}
+</style>
+  <div id="div_edit"> 
+    {% include "polls/div_edit.html" %}    
+  </div>
+
+  <div id="cy" style="display: inline;border-radius: 25px;border: 5px solid #73AD21;background-color:#FFFFFF;padding: 0px 0px;margin:200px 0px 0px 800px;float:right;height:600px;width:550px"> </div>
+</div>
+
+
+
+
+
+
+<!--
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+    <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+<font color="white">
+<ul>
+<li><a name="pete1">This</a></li>
+<li><a name="pete2">That</a></li>
+<li><a name="pete3">The</a></li>
+<li><a name="pete4">Other</a></li>
+<li><a name="pete5">Thing</a></li>
+</ul>
+
+-->
+
+
+<!-- javascript only 
+{% include "polls/graph.js" %}    
+-->
+
+<!-- javascript only -->
+{% include "polls/edit_scripts.js" %}    
+
+
+</font>
+</body>
+</html>
+

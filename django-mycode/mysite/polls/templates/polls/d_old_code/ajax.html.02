@@ -1,0 +1,50 @@
+<font color="black">
+  <div>
+    <form name="example form">
+      {% csrf_token %}  
+      <input name="example" id="forminput" type="text">
+      <input id="button" type="button" value="send to server">
+    </form>
+  </div>
+  <div id="result"> </div>
+</font>
+
+
+<!-- <script type='text/javascript' src='http://code.jquery.com/jquery-1.8.2.js'></script> -->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#button").click(function() {
+                    var input_string = $("#forminput").val();
+
+
+                    var edout = editor.getValue();
+                    var rhc_data = {'foo': 'bar', 'hello': 'world'};
+                    $.ajax({
+                        url : "/polls/ajaxa/", 
+                        type : "POST",
+                        dataType: "text", 
+                        data : {
+                            client_response : edout,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                            },
+                        success : function(json) {
+//                          alert(" " + json.server_response.substring(1, 12));
+                            alert(" SUCCESS: " + json); // xhr.status);
+//                            alert(" SUCCESS: " + json.server_response);
+//                            $('#result').append( 'ServerResponse:' + json.server_response);
+                        },
+                        error : function(xhr,errmsg,err) {
+                            alert(" ERROR " + xhr.status + ": " + xhr.responseText);
+                        }
+                    });
+                    return false;
+            });
+        });
+</script>
+
+
+
+

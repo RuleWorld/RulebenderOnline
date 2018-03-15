@@ -1,0 +1,101 @@
+
+<!-- <div class="basic">  -->
+{% include "polls/header.html" %}    
+<!-- </div>  -->
+
+
+<!--
+<script src='lib/require.js'></script>
+<script>
+
+   var antlr4 = require('antlr4/index');
+   alert(" Got here ");
+
+   var input = "your text to parse here"
+   var chars = new antlr4.InputStream(input);
+
+   var lexer = new Lexer.Lexer(chars);
+   var tokens  = new antlr4.CommonTokenStream(lexer);
+   var parser = new Parser.Parser(tokens);
+</script>
+-->
+
+
+
+<style type="text/css">
+      .CodeMirror {border: 1px solid #aaa; height: 400px; width: 700px; font-weight: 900;}
+<!--
+      .lineblock { display: inline-block; margin: 1px; height: 5px; }
+-->
+      .cm-bngl_comment      { color: grey;   }
+      .cm-bngl_section      { color: purple; }
+      .cm-bngl_observables  { color: purple; }
+      .cm-bngl_red          { color: red;    }
+      .cm-bngl_blue         { color: blue;   }
+      .cm-bngl_green        { color: green;  }
+      .cm-bngl_orange       { color: orange; }
+</style>
+
+ 
+ 
+<div id="container"> 
+
+<style type="text/css">
+#div_edit
+{
+        float: left;
+        width: 550px;
+        padding: 40px 0;
+        margin: 0 20px 0 0;
+        display: inline;
+}
+</style>
+  <div id="div_edit"> 
+    {% include "polls/div_edit.html" %}    
+  </div>
+
+  <div id="cy" style="display: inline;border-radius: 25px;border: 5px solid #73AD21;background-color:#FFFFFF;padding: 0px 0px;margin:200px 0px 0px 800px;float:right;height:600px;width:550px"> </div>
+</div>
+
+
+
+
+
+
+<!--
+{% if latest_question_list %}
+    <ul>
+    {% for question in latest_question_list %}
+    <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+<font color="white">
+<ul>
+<li><a name="pete1">This</a></li>
+<li><a name="pete2">That</a></li>
+<li><a name="pete3">The</a></li>
+<li><a name="pete4">Other</a></li>
+<li><a name="pete5">Thing</a></li>
+</ul>
+
+Now is the time for all good men to come to the aid of their country.
+
+-->
+
+
+<!-- javascript only 
+{% include "polls/graph.js" %}    
+-->
+
+<!-- javascript only -->
+{% include "polls/edit_scripts.js" %}    
+
+
+</font>
+</body>
+</html>
+

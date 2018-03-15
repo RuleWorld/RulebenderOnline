@@ -1,0 +1,12 @@
+
+
+Using Django with Ajax
+
+https://www.fir3net.com/Web-Development/Django/how-do-i-use-ajax-along-side-django.html
+
+More Ajax stuff
+
+http://stackoverflow.com/questions/18701282/what-is-content-type-and-datatype-in-an-ajax-request
+
+
+http://stackoverflow.com/questions/35306865/django-class-based-views-post-method-not-allowed

@@ -1,0 +1,21 @@
+<form>
+  <textarea rows="25"  cols="60" id="cm" name="cm">
+
+
+  </textarea>
+  <input type="submit" value="Submit">
+</form>
+<br>
+<br>
+
+<!--  <a href="#my-header" onclick='updateBlob()'>Review Text</a> 
+<div style="display: inline-block; height: 20px; overflow-y: auto" 
+     id="output">
+</div>
+-->
+
+<form>
+  <textarea rows="6"  cols="60" id="validate" name="validate">
+Model formulation is valid.</textarea>
+  <input type="button" onclick="updateBlob();" value="Validate Model">
+</form>

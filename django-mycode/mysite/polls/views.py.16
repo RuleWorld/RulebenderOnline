@@ -1,0 +1,501 @@
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect
+from django.http import *
+from django.urls import reverse
+from django.views import generic
+from django.utils import timezone
+from django.template import RequestContext
+from ipware.ip import get_real_ip
+import json 
+from django.http import HttpResponse
+import socket
+import datetime
+import time
+import subprocess
+from subprocess import  call
+import StringIO
+import csv
+import urllib2
+from subprocess import Popen, PIPE
+
+import sys
+import errno, os
+import time
+import fcntl
+from ctypes import get_errno
+
+from .models import Choice, Question
+
+
+
+
+
+class IndexView(generic.ListView):
+    template_name = 'polls/index.html'
+    context_object_name = 'latest_question_list'
+
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Question.objects.filter(
+            pub_date__lte=timezone.now()
+        ).order_by('-pub_date')[:5]
+
+""" ------------- SECOND UPLOAD OF DATA --------------------------- """
+""" This anticipates a session key in the first line of the file """
+""" This anticipates a model name in the second line of the file """
+""" This anticipates zero parameters """
+def zero_key(request,python_map_type):
+
+    print('  ')
+    print('  ')
+    print('  ')
+    print('---------------- Calling zero_key -------------------------')
+
+    x_bngl = request.POST['client_response']
+
+    key_end = x_bngl.find("\n")
+    x_session = x_bngl[0:key_end]
+
+    name_end = x_bngl.find("\n",key_end+1)
+    x_name   = x_bngl[key_end+1:name_end]
+    x_bngl   = x_bngl[name_end+1:]
+
+    """
+    file = open("/home/roc60/d_contactmap/session.txt", "w")
+    file.write("1 " + x_name + "\n")
+    file.close()
+    """
+
+
+    p = Popen('date "+%m"', shell=True, stdout=PIPE, stderr=PIPE)
+    y_month   = p.stdout.read().strip()
+    p = Popen('/home/roc60/d_rulebender_data/d_utilities/s_get_month  ' +
+              y_month + '  ' + x_session, shell=True, stdout=PIPE, 
+              stderr=PIPE)
+    x_month   = p.stdout.read().strip()
+    if x_month == 'not_found':
+        y_bngl = 'not_found'
+    else:
+        dir_head = "/home/roc60/d_rulebender_data/" \
+                   + x_month + "/" + x_session
+        con_head = dir_head + "/d_contactmap"
+        data_head = con_head + "/input_file.bngl"
+        file = open(data_head, "w")
+        file.write(x_bngl)
+        file.close()
+
+        data_head = dir_head + "/model_name.txt"
+        file = open(data_head, "w")
+        file.write(x_name + "\n")
+        file.close()
+
+        data_head = dir_head + "/epoch.txt"
+        file = open(data_head, "w")
+        new_epoch = '%d' % int(time.time())
+        file.write(new_epoch + "\n")
+        file.close()
+
+        data_head = dir_head + "/epoch_list.txt"
+        file = open(data_head, "a")
+        file.write(new_epoch + "\n")
+        file.close()
+
+
+        util_dir = "/home/roc60/d_rulebender_data/d_utilities/s_cmap"
+        os.system(util_dir + " " + x_month + " " + x_session + 
+                  " " + python_map_type)
+
+        result_file =  con_head + "/layout_elements.txt"
+        file = open(result_file, "r")
+        y_bngl = file.read()
+        file.close()
+
+
+           
+    z_bngl = y_bngl + "    \n      session_key_51937      \n   " + x_session
+
+
+    return HttpResponse(z_bngl, content_type='text/plain')
+
+
+def pmap(request):
+    if request.POST.has_key('client_response'):
+        return zero_no_key(request,"ruleviz_pattern") 
+    else:
+        template_name = 'polls/index.html'
+
+def cmap(request):
+    if request.POST.has_key('client_response'):
+        return zero_no_key(request,"contactmap") 
+    else:
+        template_name = 'polls/index.html'
+
+def cmap_key(request):
+    if request.POST.has_key('client_response'):
+        return zero_key(request,"contactmap") 
+    else:
+        template_name = 'polls/index.html'
+
+def pmap_key(request):
+    if request.POST.has_key('client_response'):
+        return zero_key(request,"ruleviz_pattern") 
+    else:
+        template_name = 'polls/index.html'
+
+def comp_key(request):
+    if request.POST.has_key('client_response'):
+        return zero_key(request,"ruleviz_operation") 
+    else:
+        template_name = 'polls/index.html'
+
+def cone_key(request):
+    if request.POST.has_key('client_response'):
+        return one_key(request,"ruleviz_operation_one") 
+    else:
+        template_name = 'polls/index.html'
+
+def omap_key(request):
+    if request.POST.has_key('client_response'):
+        return zero_key(request,"regulatory") 
+    else:
+        template_name = 'polls/index.html'
+
+def oone_key(request):
+    if request.POST.has_key('client_response'):
+        return one_key(request,"regulatory_one") 
+    else:
+        template_name = 'polls/index.html'
+
+
+""" ------------- SECOND UPLOAD OF DATA --------------------------- """
+""" This anticipates a session key in the first line of the file """
+""" This anticipates a model name in the second line of the file """
+""" This anticipates one parameter in the third line """
+def one_key(request,python_map_type):
+
+    print('  ')
+    print('  ')
+    print('  ')
+    print('---------------- Calling one_key -------------------------')
+
+    x_bngl = request.POST['client_response']
+
+    key_end = x_bngl.find("\n")
+    x_session = x_bngl[0:key_end]
+
+    name_end = x_bngl.find("\n",key_end+1)
+    x_name   = x_bngl[key_end+1:name_end]
+
+    aux_end   = x_bngl.find("\n",name_end+1)
+    aux_value = x_bngl[name_end+1:aux_end]
+
+    x_bngl   = x_bngl[aux_end+1:]
+   
+    """ 
+    file = open("/home/roc60/d_contactmap/session.txt", "w")
+    file.write("2 " + x_name + "\n")
+    file.close()
+    """ 
+    
+
+    p = Popen('date "+%m"', shell=True, stdout=PIPE, stderr=PIPE)
+    y_month   = p.stdout.read().strip()
+    p = Popen('/home/roc60/d_rulebender_data/d_utilities/s_get_month  ' +
+              y_month + '  ' + x_session, shell=True, stdout=PIPE, 
+              stderr=PIPE)
+    x_month   = p.stdout.read().strip()
+    if x_month == 'not_found':
+        y_bngl = 'not_found'
+    else:
+        """ Create director for this data set. """
+        dir_head = "/home/roc60/d_rulebender_data/" + x_month + "/" + x_session
+        con_head = dir_head + "/d_contactmap"
+        data_head = con_head + "/input_file.bngl"
+        file = open(data_head, "w")
+        file.write(x_bngl)
+        file.close()
+
+        data_head = dir_head + "/model_name.txt"
+        file = open(data_head, "w")
+        file.write(x_name + "\n")
+        file.close()
+
+        util_dir = "/home/roc60/d_rulebender_data/d_utilities/s_cmap"
+        os.system(util_dir + " " + x_month + " " + x_session + 
+                  " " + python_map_type + " " + aux_value)
+
+        result_file =  con_head + "/layout_elements.txt"
+        file = open(result_file, "r")
+        y_bngl = file.read()
+        file.close()
+
+        z_bngl = y_bngl + "    \n    session_key    \n   " + x_session
+        return HttpResponse(z_bngl, content_type='text/plain')
+
+
+
+
+def pone_key(request):
+    if request.POST.has_key('client_response'):
+        return one_key(request,'ruleviz_pattern_one')
+    else:
+        template_name = 'polls/index.html'
+
+
+""" ------------- FIRST UPLOAD OF DATA --------------------------- """
+""" This does not anticipate a session key at the head of the file """
+""" It does expect a model name at the head of the file """
+""" Instead, it creates a session key, and sends it back """
+def zero_no_key(request,python_map_type):
+
+    print('  ')
+    print('  ')
+    print('  ')
+    print('---------------- Calling zero_no_key -------------------------')
+    if request.POST.has_key('client_response'):
+        x_bngl = request.POST['client_response']
+
+        name_end = x_bngl.find("\n")
+        x_name   = x_bngl[0:name_end]
+        x_bngl   = x_bngl[name_end+1:]
+
+
+        dir(request.session)
+        x_session = request.session._get_or_create_session_key()
+        p = Popen('date "+%m"', shell=True, stdout=PIPE, stderr=PIPE)
+        x_month   = p.stdout.read().strip()
+        client_ip = request.META['REMOTE_ADDR']
+        client_ip = request.META.get('REMOTE_ADDR')
+       
+        """ 
+        file = open("/home/roc60/d_contactmap/session.txt", "w")
+        file.write("3 " + x_name + "\n")
+        file.close()
+        """
+        
+
+
+        """
+        user_raw = urllib2.urlopen('http://freegeoip.net/json/216.251.43.17')
+        user_json = user_raw.read()
+        file = open(dir_head + "/user_data.txt", "w")
+        file.close()
+        For system calls
+        call(["/home/roc60/d_contactmap/s_call_bngl2json"])
+        """
+
+        """ Create directory for this data set. """
+        dir_head = "/home/roc60/d_rulebender_data/" + x_month + "/" + x_session
+        sysy_head = "mkdir " + dir_head
+        os.system(sysy_head)
+
+        con_head = dir_head + "/d_contactmap"
+        sysy_head = "mkdir " + con_head 
+        os.system(sysy_head)
+        
+        data_head = con_head + "/input_file.bngl"
+        file = open(data_head, "w")
+        file.write(x_bngl)
+        file.close()
+
+        data_head = dir_head + "/model_name.txt"
+        file = open(data_head, "w")
+        file.write(x_name + "\n")
+        file.close()
+
+        data_head = dir_head + "/epoch.txt"
+        file = open(data_head, "w")
+        new_epoch = '%d' % int(time.time())
+        file.write(new_epoch + "\n")
+        file.close()
+
+        data_head = dir_head + "/epoch_list.txt"
+        file = open(data_head, "w")
+        file.write(new_epoch + "\n")
+        file.close()
+
+        util_dir = "/home/roc60/d_rulebender_data/d_utilities/s_cmap"
+        os.system(util_dir + " " + x_month + " " + x_session + " contactmap")
+
+        result_file =  con_head + "/layout_elements.txt"
+        file = open(result_file, "r")
+        y_bngl = file.read()
+        file.close()
+
+        z_bngl = y_bngl + "    \n    session_key_51937      \n   " + x_session
+
+        print(' Created new key ')
+        # Lock the contention lock, and load information about user 
+        lockAndLoad(request,x_session,python_map_type,x_month)
+
+        return HttpResponse(z_bngl, content_type='text/plain')
+    else:
+        template_name = 'polls/index.html'
+
+
+
+
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = 'polls/detail.html'
+
+
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
+
+    def get_queryset(self):
+        """
+        Excludes any questions that aren't published yet.
+        """
+        return Question.objects.filter(pub_date__lte=timezone.now())
+
+
+
+def vote(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    try:
+        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+    except (KeyError, Choice.DoesNotExist):
+        # Redisplay the question voting form.
+        return render(request, 'polls/detail.html', {
+            'question': question,
+            'error_message': "You didnt select a choice.",
+        })
+    else:
+        selected_choice.votes += 1
+        selected_choice.save()
+        # Always return an HttpResponseRedirect after successfully dealing
+        # with POST data. This prevents data from being posted twice if a
+        # user hits the Back button.
+        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+
+def load_visitor_database(session_key,service_requested,ip_capture_status):
+    if ip_capture_status == 'UNSUCCESSFUL':
+       ip_stat = 'unsuccessful'
+       ip_addr = 'none'
+    else:
+       ip_stat = 'successful'
+       ip_addr = ip_capture_status
+
+    d1 = {
+         'session_key':        session_key,
+         'service_requested':  service_requested,
+         'ip_capture_status':  ip_stat,
+         'ip_address':         ip_addr
+         }
+
+    user_raw = urllib2.urlopen('http://ip-api.com/csv/' + ip_addr)
+    user_csv = user_raw.read()
+
+    f = StringIO.StringIO(user_csv)
+    rdr = csv.reader(f, delimiter=',')
+    larry = [100]
+    iii = -1
+    for row in rdr:
+       iii = iii + 1
+       larry[iii] = row  # This should only yield one row.
+
+    curly = [100]
+    # print(larry[0])
+    if larry[0][0] == 'success':
+       d2 = {
+           'country':              larry[0][1],
+           'country_abreviation':  larry[0][2],
+           'state_abreviation':    larry[0][3],
+           'state':                larry[0][4],
+           'city':                 larry[0][5],
+           'zip_code':             larry[0][6],
+           'geo_lat':              larry[0][7],
+           'geo_lon':              larry[0][8],
+           'time_zone':            larry[0][9],
+           'location_1':           larry[0][10],
+           'location_2':           larry[0][11],
+           'location_3':           larry[0][12]
+           }
+    d1.update(d2)
+
+    now_epoch = '%d' % int(time.time())
+    now = datetime.datetime.now()
+    d3 = {
+        'date_year':   now.year, 
+        'date_month':  now.month, 
+        'date_day':    now.day, 
+        'date_hour':   now.hour, 
+        'date_minute': now.minute,
+        'date_epoch':  now_epoch
+        }
+    d1.update(d3)
+    # print('   ')
+    # print(json.dumps(d1))
+    # print('   ')
+    vis_head = '/home/roc60/d_rulebender_data/'
+    vis_full = vis_head + "t_" + str(now.year) + "_visitors.txt"
+    updateFile(d1,vis_full)
+
+#   #############  Call the Parser #####################################
+#   The third parameter shouldn't be needed.  Idealy the output should go
+#   to the second paramater.  It's just one more thing that needs to be
+#   checked into.  For now, this setup works.
+    month2 = str('%0.2d' % now.month)
+    subprocess.call(  \
+       '/home/roc60/d_rulebender_data/d_utilities/BNGParser/src/s_doit ' + \
+       '/home/roc60/d_rulebender_data/' + month2 + '/' + session_key + \
+       '/d_contactmap/input_file.bngl  ' + \
+       '/home/roc60/d_rulebender_data/' + month2 + '/' + session_key + \
+       '/d_contactmap/input_file.pars.txt  ' + \
+       '/home/roc60/d_rulebender_data/' + month2 + '/' + session_key + \
+       '/d_contactmap/input_file.err.txt  ' \
+       '/home/roc60/d_rulebender_data/' + month2 + '/' + session_key + \
+       '/d_contactmap/input_file.sed.txt  ' \
+       , shell=True )
+
+
+    # This will always call  web_stats.py
+    if (os.path.getsize( \
+       '/home/roc60/d_rulebender_data/' + month2 + '/' + session_key + \
+       '/d_contactmap/input_file.sed.txt') > -10): \
+           subprocess.call(  \
+           'python /home/roc60/d_rulebender_data/d_utilities/web_stats.py',   \
+           shell=True )
+
+
+
+ 
+def updateFile(data,data_vis_full):
+    x = open('/home/roc60/d_rulebender_data/d_utilities/lock_data.txt', 'w+')
+    bval = True
+    while bval:
+        try:
+            fcntl.flock(x, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            # print('Got the lock !!')
+            with open(data_vis_full, "a") as myfile:
+               myfile.write(json.dumps(data) + "\n")
+            myfile.close
+            fcntl.flock(x, fcntl.LOCK_UN)
+            bval = False
+        except IOError as e:
+        # raise on unrelated IOErrors
+            if e.errno != errno.EAGAIN:
+                raise
+            else:
+                time.sleep(0.5)
+
+
+def lockAndLoad(request,x_session,python_map_type,x_month):
+    ip = get_real_ip(request)
+    """ For debugging purposes 
+    """
+    print("lockAndLoad\n")
+    bigname = "/home/roc60/d_rulebender_data/" + x_month + \
+    "/" + x_session + "/ip_address.txt" 
+    file = open(bigname, "w")
+    if ip is not None:
+       file.write("IP Address is: \n" + ip + "\n")
+       # we have a real, public ip address for user
+       load_visitor_database(x_session,python_map_type,ip)
+    else:
+       file.write("No IP Address \n")
+       load_visitor_database(x_session,python_map_type,"UNSUCCESSFUL")
+    file.close()
