@@ -25,7 +25,9 @@ import errno, os
 import time
 import fcntl
 
-data_root = '/home/roc60/d_rulebender_data'
+from os.path import expanduser
+home = expanduser("~")
+data_root = '%s/d_rulebender_data' % home
 util_root = data_root + '/d_utilities'
 
 
@@ -72,7 +74,7 @@ def zero_key(request,python_map_type):
     # month is.
     p = Popen('date "+%m"', shell=True, stdout=PIPE, stderr=PIPE)
     y_month   = p.stdout.read().strip()
-    p = Popen('/home/roc60/d_rulebender_data/d_utilities/s_get_month  ' +
+    p = Popen(home + '/d_rulebender_data/d_utilities/s_get_month  ' +
               y_month + '  ' + x_session, shell=True, stdout=PIPE, 
               stderr=PIPE)
     x_month   = p.stdout.read().strip()
@@ -80,7 +82,7 @@ def zero_key(request,python_map_type):
         return zero_no_key(request,python_map_type)
     else:
         # Do we need dir_head ?
-        results_head = "/home/roc60/d_rulebender_data/" \
+        results_head = home + "/d_rulebender_data/" \
                    + x_month + "/" + x_session + "/d_results"
 
         # The working directory will have a name that is based on the date.
@@ -230,7 +232,7 @@ def one_key(request,python_map_type):
 
     p = Popen('date "+%m"', shell=True, stdout=PIPE, stderr=PIPE)
     y_month   = p.stdout.read().strip()
-    p = Popen('/home/roc60/d_rulebender_data/d_utilities/s_get_month  ' +
+    p = Popen(home + '/d_rulebender_data/d_utilities/s_get_month  ' +
               y_month + '  ' + x_session, shell=True, stdout=PIPE, 
               stderr=PIPE)
     x_month   = p.stdout.read().strip()
@@ -239,7 +241,7 @@ def one_key(request,python_map_type):
     else:
         """ Create director for this data set. """
         # Do we need dir_head ?
-        results_head = "/home/roc60/d_rulebender_data/" \
+        results_head = home + "/d_rulebender_data/" \
                    + x_month + "/" + x_session + "/d_results"
 
         # The working directory will have a name that is based on the date.
@@ -329,7 +331,7 @@ def zero_no_key(request,python_map_type):
         # Elsewhere in this script there's a better way to get the month
         p = Popen('date "+%m"', shell=True, stdout=PIPE, stderr=PIPE)
         x_month   = p.stdout.read().strip()
-        dir_head = "/home/roc60/d_rulebender_data/" + x_month + "/" + x_session
+        dir_head = home + "/d_rulebender_data/" + x_month + "/" + x_session
       
 
         """ Create directory for this data set. """
@@ -588,7 +590,7 @@ def load_visitor_database(session_key,service_requested,ip_capture_status):
 
  
 def updateFile(data,data_vis_full):
-    x = open('/home/roc60/d_rulebender_data/d_utilities/lock_data.txt', 'w')
+    x = open(home + '/d_rulebender_data/d_utilities/lock_data.txt', 'w')
     bval = True
     while bval:
         try:
@@ -726,7 +728,7 @@ def lockAndLoad(session_key,month):
     lnow = datetime.datetime.now()
 
     dk = { 'key': session_key, 'creation_month': month }
-    vis_head = '/home/roc60/d_rulebender_data/'
+    vis_head = home + '/d_rulebender_data/'
     vis_full = vis_head + "t_" + str(lnow.year) + "_visitors.json"
     updateFile(dk,vis_full)
 
@@ -858,7 +860,7 @@ def getCurrentWorkDir(session_key):
 def getSessionDir(session_key):
     p = Popen('date "+%m"', shell=True, stdout=PIPE, stderr=PIPE)
     y_month   = p.stdout.read().strip()
-    p = Popen('/home/roc60/d_rulebender_data/d_utilities/s_get_month  ' +
+    p = Popen(home + '/d_rulebender_data/d_utilities/s_get_month  ' +
               y_month + '  ' + session_key, shell=True, stdout=PIPE, 
               stderr=PIPE)
     x_month   = p.stdout.read().strip()
@@ -867,6 +869,6 @@ def getSessionDir(session_key):
     if x_month == 'not_found':
       return 'not_found'
     else:
-       dir_head = '/home/roc60/d_rulebender_data/' + x_month + \
+       dir_head = home + '/d_rulebender_data/' + x_month + \
           '/' + session_key 
        return dir_head
